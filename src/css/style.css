@@ -5,5 +5,13 @@
 	margin: -1px;
 	width: 50px;
 	height: 50px;
-	
+	float:left;
+}
+
+#b0 {
+	clear: both;
+}
+
+#c0 {
+	clear: both;
 }

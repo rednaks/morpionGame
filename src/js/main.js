@@ -11,7 +11,14 @@ function MainMorpion(event){
 			alert('Player 1');
 		}else
 			alert('Player 2');
+		gameOver();
 		player++;
 	}else
 		console.log('DEBUG: Nothing todo');
+}
+
+function gameOver() {
+
+	if(false)
+		alert('Player : '+((player%2)+1)+' is the winner !');
 }

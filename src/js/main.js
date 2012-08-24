@@ -6,25 +6,76 @@ window.addEventListener('click',MainMorpion, false);
 function MainMorpion(event){
 	var id = event.originalTarget.id;
 	if(id in boardIds){
-		console.log('DEBUG: The clicked id\'s element : '+id);
-		if(player%2) { // player 1
-			alert('Player 1');
-			document.getElementById(id).innerHTML = 'O'
-		}else{
-			alert('Player 2');
-			document.getElementById(id).innerHTML = 'X'
-		}
-		plays++;
-		gameOver();
-		player++;
+		if(boardIds[id] == null){
+			console.log('DEBUG: The clicked id\'s element : '+id);
+			if(player%2) { // player 1
+				alert('Player 1');
+				document.getElementById(id).innerHTML = 'O'
+				boardIds[id] = 'O';
+			}else{
+				alert('Player 2');
+				document.getElementById(id).innerHTML = 'X'
+				boardIds[id] = 'X';
+			}
+			plays++;
+			if(gameOver())
+				return true;
+			player++;
+		}else
+			alert('Already taken ! choose another one !');
 	}else
 		console.log('DEBUG: Nothing todo');
 }
 
 function gameOver() {
 
-	if(plays==9){
+	if(plays==9 || isThereAWinner()){
 		alert('GameOver !');
-		alert('Player : '+((player%2)+1)+' is the winner !');
+		if(isThereAWinner() === 'OOO'){
+			alert('Player : 1 is the winner !');
+		}else if(isThereAWinner() === 'XXX')
+			alert('Player : 2 is the winner !');
+
+		return true;
 	}
+	return false
+}
+
+function isThereAWinner(){
+	var res = '';
+	var cols = 'abc';
+	// look if we have a completed line
+	for(i=0; i < 3; i++){
+		for(j=0;j<3;j++)
+			res += boardIds[cols[i]+j];
+		console.log('LINES: '+res);
+		if(res === 'OOO' || res === 'XXX')
+			return res;
+		res = '';
+	}
+	
+	res = '';
+	// look if we have a completed column
+	for(i=0; i<3;i++){
+		for(j=0; j<3; j++)
+			res += boardIds[cols[j]+i];
+		console.log('COLS : '+res);
+	 	if(res === 'OOO' || res === 'XXX')
+			return res;
+		res = '';
+	}
+
+	// look if we have a completed diag
+	res = boardIds['a0']+boardIds['b1']+boardIds['c2'];
+	console.log('DIAG1: '+res);	
+ 	if(res === 'OOO' || res === 'XXX')
+		return res;
+
+	// look if we have a completed diag
+	res = boardIds['a2']+boardIds['b1']+boardIds['c0'];
+	console.log('DIAG2: '+res);	
+ 	if(res === 'OOO' || res === 'XXX')
+		return res;
+
+	return null;
 }

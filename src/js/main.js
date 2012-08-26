@@ -1,6 +1,9 @@
 var boardIds = {a0: null,a1: null,a2: null,b0: null,b1: null,b2: null,c0: null,c1: null,c2: null};
 var player = Math.floor(Math.random()*10)%2; // random value: 1 or 0
 var plays = 0;
+var resetButton = null;
+
+window.addEventListener('load',initGame, false);
 window.addEventListener('click',MainMorpion, false);
 
 function MainMorpion(event){
@@ -35,7 +38,8 @@ function gameOver() {
 			alert('Player : 1 is the winner !');
 		}else if(isThereAWinner() === 'XXX')
 			alert('Player : 2 is the winner !');
-
+		
+		resetButton.disabled = false;
 		return true;
 	}
 	return false
@@ -78,4 +82,20 @@ function isThereAWinner(){
 		return res;
 
 	return null;
+}
+
+function resetGame() {
+	resetButton.disabled = true;
+	cols = 'abc';
+	for(i=0; i<3; i++){
+		for(j=0; j<3; j++){
+			id = cols[i]+j;
+			boardIds[id] = null;
+			document.getElementById(id).innerHTML = id;
+		}
+	}
+}
+
+function initGame(){
+	resetButton = document.getElementById('reset');
 }
